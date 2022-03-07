@@ -1,5 +1,5 @@
 {
-  "name": "scrimba-cart",
+  "name": "scrimba-cart-redux",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
