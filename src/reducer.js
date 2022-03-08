@@ -1,37 +1,28 @@
 /** @format */
-import { INCREASE, DECREASE, CLEAR_CART, REMOVE, GET_TOTALS } from './actions';
-//reducer
-
-export const reducer = (state, action) => {
+import { CLEAR_CART, REMOVE, GET_TOTALS, TOGGLE_AMOUNT } from './actions';
+// items
+import cartItems from './cart-items';
+// initial store
+const initialStore = {
+  cart: cartItems,
+  total: 0,
+  amount: 0,
+};
+export const reducer = (state = initialStore, action) => {
   if (action.type === CLEAR_CART) {
     return { ...state, cart: [] };
   }
-  if (action.type === INCREASE) {
-    const { cart } = state;
-    const tempCart = cart.map((item) => {
-      let newAmount = item.amount + 1;
-      if (item.id === action.payload.id) return { ...item, amount: newAmount };
+  if (action.type === TOGGLE_AMOUNT) {
+    const tempCart = state.cart.map((item) => {
+      if (item.id === action.payload.id) {
+        let newAmount = item.amount - 1;
+        if (action.payload.type === 'inc') {
+          newAmount = item.amount + 1;
+        }
+        return { ...item, amount: newAmount };
+      }
       return item;
     });
-    return { ...state, cart: tempCart };
-  }
-  if (action.type === DECREASE) {
-    const { cart } = state;
-    const { id, amount } = action.payload;
-    let tempCart = [];
-    let tempAmount = amount - 1;
-    if (amount > 1) {
-      tempCart = cart.map((item) => {
-        if (id === item.id) {
-          return { ...item, amount: tempAmount };
-        }
-        return item;
-      });
-    } else {
-      tempCart = cart.filter((item) => {
-        return id !== item.id;
-      });
-    }
     return { ...state, cart: tempCart };
   }
   if (action.type === REMOVE) {

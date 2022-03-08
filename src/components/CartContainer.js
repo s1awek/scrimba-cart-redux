@@ -5,10 +5,9 @@ import CartItem from './CartItem';
 import { connect } from 'react-redux';
 import { CLEAR_CART, GET_TOTALS } from '../actions';
 const CartContainer = ({ cart = [], total, dispatch }) => {
-  //console.log(dispatch);
   React.useEffect(() => {
     dispatch({ type: GET_TOTALS });
-  }, [cart]);
+  }, [cart, dispatch]);
   if (cart.length === 0) {
     return (
       <section className='cart'>
